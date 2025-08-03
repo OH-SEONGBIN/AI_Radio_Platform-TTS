@@ -48,42 +48,41 @@ CI/CD	Jenkins, Docker, GitHub Actions
 
 🚀 실행 방법(실전 예시)
 1. 백엔드 서버 실행
-bash
-복사
-편집
+```bash
+
 cd backend
 pip install -r requirements.txt
 python app.py
+```
 2. 프론트엔드 서버 실행
-bash
-복사
-편집
+```bash
+
 cd ../frontend
 npm install
 npm start
 3. Jenkins 파이프라인 연동
 Jenkinsfile 참고
-
+```
 실습용 Jenkins, Docker 이미지에서 pytest 자동 테스트/배포
 
 📝 실습/포트폴리오 주요 학습 내용
-TTS+웹서비스 아키텍처 경험
+- TTS+웹서비스 아키텍처 경험
 
-CI/CD 자동화 경험
+- CI/CD 자동화 경험
 
-보안 민감정보 커밋방지(.gitignore) 실습
+- 보안 민감정보 커밋방지(.gitignore) 실습
 
-실무 프로젝트 구조 직접 설계/구현/배포
+- 실무 프로젝트 구조 직접 설계/구현/배포
 
 📸 대표 UI (스크린샷/링크)
 (Notion에선 이미지 첨부, GitHub에선 링크/캡처 첨부 권장)
 
 🛡️ 주의사항 및 보안 정책
-Google Cloud 서비스키 등 민감정보는 .gitignore로 반드시 보호
+- Google Cloud 서비스키 등 민감정보는 .gitignore로 반드시 보호
 
-개인 실습/포트폴리오용으로만 활용 (외부 서비스 배포 전 별도 보안 점검 필요)
+- 개인 실습/포트폴리오용으로만 활용 (외부 서비스 배포 전 별도 보안 점검 필요)
 
 🙋‍♂️ 개발/실습: 오성빈
-깃허브: OH-SEONGBIN
+- 깃허브: OH-SEONGBIN
 
-추가 질문/참여/리뷰는 이슈로 남겨주세요!
+- 추가 질문/참여/리뷰는 이슈로 남겨주세요!
