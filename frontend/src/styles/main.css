@@ -1,0 +1,31 @@
+body {
+  margin: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: #f7f9fa;
+}
+.main-container, .board-container, .login-container, .join-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 40px;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+nav {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+}
+nav a { color: #333; text-decoration: none; font-weight: 500; }
+header { text-align: center; margin-top: 40px; }
+.categories { display: flex; justify-content: center; gap: 16px; margin: 36px 0; }
+.categories button { border: none; background: #f0f1f3; padding: 12px 24px; border-radius: 8px; font-size: 16px; cursor: pointer; }
+.about { text-align: center; margin-top: 56px; }
+.about-boxes { display: flex; justify-content: center; gap: 40px; margin-top: 24px; }
+.about-boxes div { background: #f8fafb; padding: 32px; border-radius: 12px; width: 200px; }
+footer { background: #333; color: #fff; display: flex; justify-content: space-between; padding: 32px; border-radius: 0 0 16px 16px; margin-top: 40px; }
+.board-container table { width: 100%; border-collapse: collapse; margin-top: 32px; }
+.board-container th, .board-container td { border: 1px solid #ececec; padding: 12px; text-align: center; }
+.login-container, .join-container { display: flex; flex-direction: column; gap: 18px; }
+.login-container input, .join-container input { padding: 12px; font-size: 16px; border-radius: 8px; border: 1px solid #dcdcdc; }
+.login-container button, .join-container button { padding: 12px; border-radius: 8px; border: none; background: #444; color: #fff; font-size: 16px; cursor: pointer; }

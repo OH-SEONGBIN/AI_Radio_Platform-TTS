@@ -1,0 +1,6 @@
+flask
+flask-cors
+pymysql
+flask-jwt-extended
+google-cloud-texttospeech
+python-dotenv
