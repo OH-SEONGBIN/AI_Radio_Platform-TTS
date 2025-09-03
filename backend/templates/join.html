@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}회원가입{% endblock %}
+{% block content %}
+<h2>회원가입</h2>
+<form method="post" class="form">
+  <label>아이디 <input name="id" required></label>
+  <label>비밀번호 <input name="pw" type="password" required></label>
+  <label>이름 <input name="name" required></label>
+  <label>생일 <input name="birth" placeholder="YYYY-MM-DD" required></label>
+  <button type="submit">가입</button>
+</form>
+{% endblock %}

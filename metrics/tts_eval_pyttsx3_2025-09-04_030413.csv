@@ -1,0 +1,11 @@
+i,backend,latency_ms,audio_b64_len,status,ok,err
+1,pyttsx3,101.73,371804,200,True,
+2,pyttsx3,4.56,371804,200,True,
+3,pyttsx3,4.15,371804,200,True,
+4,pyttsx3,4.05,371804,200,True,
+5,pyttsx3,4.11,371804,200,True,
+6,pyttsx3,4.22,371804,200,True,
+7,pyttsx3,25.84,371804,200,True,
+8,pyttsx3,4.42,371804,200,True,
+9,pyttsx3,4.28,371804,200,True,
+10,pyttsx3,4.29,371804,200,True,

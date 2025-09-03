@@ -1,0 +1,32 @@
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <title>{% block title %}My Radio{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='main.css') }}">
+</head>
+<body>
+  <header class="nav">
+    <a href="{{ url_for('index_page') }}">HOME</a>
+    <a href="{{ url_for('page_board_list') }}">BOARD</a>
+    {% if session.get('user_id') %}
+      <span class="welcome">안녕하세요, {{session.get('user_name')}}님</span>
+      <a href="{{ url_for('page_write') }}">글쓰기</a>
+      <a href="{{ url_for('page_logout') }}">LOGOUT</a>
+    {% else %}
+      <a href="{{ url_for('page_login') }}">LOGIN</a>
+      <a href="{{ url_for('page_join') }}">JOIN</a>
+    {% endif %}
+  </header>
+  <main class="container">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+      <ul class="flash">
+        {% for m in messages %}<li>{{ m }}</li>{% endfor %}
+      </ul>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+  <footer class="footer">© 2025 AI Radio</footer>
+</body>
+</html>

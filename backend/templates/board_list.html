@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %}게시판{% endblock %}
+{% block content %}
+<h2>게시판</h2>
+<form method="get" action="{{ url_for('page_board_list') }}" class="search">
+  <input name="search" value="{{ search or '' }}" placeholder="제목 검색">
+  <button type="submit">검색</button>
+</form>
+<table class="table">
+  <thead><tr><th>번호</th><th>제목</th><th>글쓴이</th><th>작성일</th><th>조회</th></tr></thead>
+  <tbody>
+  {% for row in rows %}
+    <tr>
+      <td>{{ row.id }}</td>
+      <td><a href="{{ url_for('page_board_detail', board_id=row.id) }}">{{ row.title }}</a></td>
+      <td>{{ row.writer }}</td>
+      <td>{{ row.date }}</td>
+      <td>{{ row.views }}</td>
+    </tr>
+  {% else %}
+    <tr><td colspan="5">게시글이 없습니다.</td></tr>
+  {% endfor %}
+  </tbody>
+</table>
+{% endblock %}
