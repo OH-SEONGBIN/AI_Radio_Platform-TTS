@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% block title %}게시글{% endblock %}
+{% block content %}
+{% if not post %}
+  <p>not found</p>
+{% else %}
+  <h2>{{ post.title }}</h2>
+  <p class="meta">by {{ post.writer }} | {{ post.date }} | 조회 {{ post.views }}</p>
+  <pre class="content">{{ post.content }}</pre>
+
+  <button id="play">이 사연 듣기 (TTS)</button>
+  <audio id="player" controls style="display:block;margin-top:12px;"></audio>
+
+  <script>
+  document.getElementById('play').onclick = async () => {
+  // 제목+본문을 안전하게 JSON 문자열로
+  const text = {{ ('제목: ' ~ post.title ~ '. 내용: ' ~ (post.content or '')) | tojson }};
+
+  try {
+    const resp = await fetch("/api/tts", {
+      method: "POST",
+      headers: {"Content-Type": "application/json"},
+      body: JSON.stringify({
+        text,
+        backend: "pyttsx3"   // 오프라인 기본. GCP 쓰면 "google"
+      })
+    });
+
+    const data = await resp.json();
+    if (!resp.ok) {
+      alert("TTS 오류: " + (data.error || resp.status));
+      return;
+    }
+    const mime = data.mime || "audio/mpeg";
+    const audio = document.getElementById('player');
+    audio.src = `data:${mime};base64,${data.audioContent}`;
+    await audio.play();
+  } catch (err) {
+    alert("네트워크 오류: " + err);
+  }
+};
+</script>
+{% endif %}
+{% endblock %}
