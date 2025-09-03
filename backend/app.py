@@ -7,7 +7,23 @@ from flask_jwt_extended import (
     JWTManager, create_access_token, jwt_required, get_jwt_identity
 )
 from datetime import timedelta
-import os, base64, tempfile
+import os, base64, tempfile, threading
+from pathlib import Path
+import pyttsx3
+import hashlib
+
+# 캐시 디렉터리(레포에 포함하지 않음)
+CACHE_DIR = (Path(__file__).parent / "cache")
+CACHE_DIR.mkdir(exist_ok=True)
+
+TTS_LOCK = threading.Lock()
+# 오프라인 엔진 1회 초기화 + 동시 호출 보호 락
+try:
+    ENGINE = pyttsx3.init()
+except Exception:
+    ENGINE = None
+
+TTS_ENGINE = pyttsx3.init() 
 
 
 # 선택적(GCP 쓸 때만 실제 호출됨)
@@ -175,18 +191,20 @@ def board_write():
 
 # TTS (오프라인 기본 / 요청 시 구글 사용)
 @app.route('/api/tts', methods=['POST'])
+  # 안전하게 JSON 파싱
 def tts():
-    # 안전하게 JSON 파싱
     data = request.get_json(force=True, silent=True) or {}
     text = (data.get('text') or '').strip()
-    backend = (data.get('backend') or 'pyttsx3').lower()  # 기본: 오프라인 엔진
+    backend = (data.get('backend') or 'pyttsx3').lower()  # 기본: 오프라인
+    # 보통은 캐시를 켜고(=True) 측정 시에만 False로 강제
+    use_cache = bool(data.get('cache', True))
 
     if not text:
         return jsonify({'error': 'no text'}), 400
 
     try:
+        # ===== 1) Google TTS (외부 API) =====
         if backend == 'google':
-            # 필요할 때만 지연 임포트(키가 없으면 여기서만 실패)
             from google.cloud import texttospeech
             client = texttospeech.TextToSpeechClient()
             synth_input = texttospeech.SynthesisInput(text=text)
@@ -203,25 +221,49 @@ def tts():
             b64 = base64.b64encode(resp.audio_content).decode('utf-8')
             return jsonify({'audioContent': b64, 'mime': 'audio/mpeg'})
 
+        # ===== 2) 오프라인 TTS (pyttsx3) =====
         else:
-            # 오프라인 TTS (Windows: SAPI5) – 과금/키 필요 없음
-            import pyttsx3, tempfile, os
-            fd, path = tempfile.mkstemp(suffix='.wav')
+            if ENGINE is None:
+                return jsonify({'error': 'offline TTS engine not available'}), 500
+
+            # 텍스트 해시로 캐시 키 생성
+            key = hashlib.sha1(text.encode('utf-8')).hexdigest()
+            out_path = CACHE_DIR / f"{key}.wav"
+
+            # 캐시 hit
+            if use_cache and out_path.exists():
+                with open(out_path, 'rb') as f:
+                    audio = f.read()
+                b64 = base64.b64encode(audio).decode('utf-8')
+                return jsonify({'audioContent': b64, 'mime': 'audio/wav'})
+
+            # 합성 → 임시파일 → (옵션) 캐시 저장
+            fd, tmp_path = tempfile.mkstemp(suffix='.wav')
             os.close(fd)
-            eng = pyttsx3.init()
-            eng.save_to_file(text, path)
-            eng.runAndWait()
-            with open(path, 'rb') as f:
-                audio = f.read()
             try:
-                os.remove(path)
-            except:
-                pass
+                with TTS_LOCK:
+                    ENGINE.save_to_file(text, tmp_path)
+                    ENGINE.runAndWait()
+
+                if use_cache:
+                    Path(tmp_path).replace(out_path)
+                    read_path = out_path
+                else:
+                    read_path = Path(tmp_path)
+
+                with open(read_path, 'rb') as f:
+                    audio = f.read()
+            finally:
+                if not use_cache:
+                    try:
+                        Path(tmp_path).unlink()
+                    except Exception:
+                        pass
+
             b64 = base64.b64encode(audio).decode('utf-8')
             return jsonify({'audioContent': b64, 'mime': 'audio/wav'})
 
     except Exception as e:
-        # 프론트에서 alert 띄울 수 있게 메시지 반환
         return jsonify({'error': str(e)}), 500
 
 # ───────────── 페이지용 로그인 보호 ─────────────
@@ -353,4 +395,6 @@ def page_write():
 
 
 if __name__ == '__main__':
-    app.run(debug=True, port=5000)
+    app.run(host='127.0.0.1', port=5000, debug=False, use_reloader=False, threaded=False)
+
+

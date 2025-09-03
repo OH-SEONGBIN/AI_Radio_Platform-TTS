@@ -1,0 +1,11 @@
+i,backend,latency_ms,audio_b64_len,status,ok,err
+1,pyttsx3,112.04,371804,200,True,
+2,pyttsx3,60009.56,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)"
+3,pyttsx3,60012.34,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)"
+4,pyttsx3,60001.97,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)"
+5,pyttsx3,60004.2,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)"
+6,pyttsx3,60007.77,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Read timed out. (read timeout=60)"
+7,pyttsx3,16649.05,0,0,False,"('Connection aborted.', ConnectionResetError(10054, '현재 연결은 원격 호스트에 의해 강제로 끊겼습니다', None, 10054, None))"
+8,pyttsx3,13.57,0,0,False,"('Connection aborted.', ConnectionResetError(10054, '현재 연결은 원격 호스트에 의해 강제로 끊겼습니다', None, 10054, None))"
+9,pyttsx3,2025.07,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /api/tts (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001DFEFF10050>: Failed to esta"
+10,pyttsx3,2044.65,0,0,False,"HTTPConnectionPool(host='127.0.0.1', port=5000): Max retries exceeded with url: /api/tts (Caused by NewConnectionError('<urllib3.connection.HTTPConnection object at 0x000001DFEFF10380>: Failed to esta"
