@@ -109,7 +109,19 @@ python tools/tts_bench.py --runs 10 --backend pyttsx3
 
 - **측정 도구**: tools/tts_bench.py 추가(결과 CSV 자동 저장)
 
-<summary><b>🧪 측정 결과 예시 </b></summary>
+<summary><b>🧪 측정 결과  </b></summary>
+
+<img width="550" height="245" alt="AI_Radio_Platform-TTS_1" src="https://github.com/user-attachments/assets/7ffbd37f-4d4c-4036-8a3e-5f2d2c734146" />
+
+> 1차 : (p50≈109ms, p95≈263ms)
+
+<img width="511" height="258" alt="AI_Radio_Platform-TTS_2" src="https://github.com/user-attachments/assets/08075cf7-25b0-47b5-b5d7-8b570a5fd7cc" />
+
+> 2차 : (p50≈15.9ms)
+
+<img width="585" height="244" alt="AI_Radio_Platform-TTS_after" src="https://github.com/user-attachments/assets/9611273b-e4e1-4404-8f8c-fd147d41c4d6" />
+
+> 3차 : (p50≈4.28ms, p95≈101.7ms)
 
 ```ini
 pass_ratio=1.000, p50=4.28ms, p95=101.73ms, n=10   # pyttsx3 (오프라인)
